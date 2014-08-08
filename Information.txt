@@ -1,0 +1,10 @@
+Simple Javascript game where the goal is to make
+the binary tree into a valid heap. Uses an array
+backbone as the primary datastructure. 
+
+Blue outer-ring indicates the current cursor. Use
+arrow keys to navigate. 
+
+Inner white ring indicates an idle node. Inner blue ring
+indicates that the node has been selected to be swapped. 
+Hitting spacebar selects the node. 

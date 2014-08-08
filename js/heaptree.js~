@@ -1,0 +1,48 @@
+var gameArray = new Array(); 
+var capValue = 100;
+var numberOfElements = 31;
+
+gameInit();
+
+
+function gameInit(){
+	var i=0;
+	for (i; i < numberOfElements; i++)
+		gameArray[i] = Math.floor(Math.random()*capValue);
+}
+
+function LEFT(n){
+	return 2*n + 1;
+}
+
+function RIGHT(n){
+	return 2*n + 2;
+}
+
+//Recursive check at a given node to see if its entire subtree is a heap
+//	TRUE  :: is heap
+//	FALSE :: is NOT heap
+function verifyHeap(currentIndex){
+	var currElement = gameArray[currentIndex];
+	if (LEFT(currentIndex) <= (numberOfElements-1) && gameArray[LEFT(currentIndex)] > currElement)
+		return false;
+	else if (RIGHT(currentIndex) <= (numberOfElements-1) && gameArray[RIGHT(currentIndex)] > currElement)
+		return false;
+	else
+		return verifyHeap(LEFT(currentIndex)) && verifyHeap(RIGHT(currentIndex));
+}
+
+//Checks entire tree if it is a heap
+function verifyGame(){
+	verifyHeap(0);
+}
+
+//Only checks current node with its two children
+function verifyNode(currentIndex){
+	currElement = gameArray[currentIndex];
+	if (LEFT(currentIndex) <= (numberOfElements-1) && gameArray[LEFT(currentIndex)] > currElement)
+		return false;
+	else if (RIGHT(currentIndex) <= (numberOfElements-1) && gameArray[RIGHT(currentIndex)] > currElement)
+		return false;
+	return true;
+}

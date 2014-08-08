@@ -1,0 +1,13 @@
+Change winning condition to be more robust:
+	verifyHeap();
+
+Currently the game requires the heap to be
+breadth-first filled or else the winning condition
+is buggy and can be abused for an early, but not
+true win. 
+
+Consider changing the GUI to make the navigation
+to lower levels more smooth; currently difficult
+to get adjusted to whenever the scope shifts.
+
+Change code to be more efficient and cleaner.

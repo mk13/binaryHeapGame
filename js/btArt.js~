@@ -1,0 +1,18 @@
+//Initialize canvas and context before
+//using this script
+var COLORBLACK = '#000000';
+var COLORWHITE = '#FFFFFF';
+var H0COLOR = '#FFCC00';
+var H1COLOR = '#FFAA00';
+var H2COLOR = '#FF7700';
+var H3COLOR = '#FF2200';
+
+function drawNode(i, arr){
+	context.fillStyle = H0COLOR;
+	var x = 0.5 * i * canvas.width;
+	var y = 0.1 * i * canvas.height;
+	context.beingPath();
+	context.arc(x, y, 10, 0, 2 * Math.PI);
+	context.closePath();
+	context.fill();
+}
