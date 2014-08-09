@@ -78,16 +78,6 @@ function downArrow(){
 		
 	cancelHighlight();
 	if (!inVisualScope(c)){
-		/*
-		var level = levelOfIndex(HIGHLIGHTEDNODE);
-		var start = Math.pow(2,level)-1;
-		var end = start * 2;
-		var middle = start + Math.floor((end-start)/2);
-		if (c >= start && c <= middle)
-			ROOTNODE = LEFT(ROOTNODE);
-		else
-			ROOTNODE = RIGHT(ROOTNODE);
-		*/
 		ROOTNODE = PARENT(PARENT(HIGHLIGHTEDNODE));
 		HIGHLIGHTEDNODE = c;
 		updateAllGUI();
@@ -154,6 +144,7 @@ function spaceButton(){
 	if (SELECTEDNODE === null){
 		SELECTEDNODE = HIGHLIGHTEDNODE;
 		drawSelected();
+		fillSideBar();
 	}
 	else{
 		swap(SELECTEDNODE,HIGHLIGHTEDNODE);

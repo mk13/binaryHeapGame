@@ -12,6 +12,7 @@ var COLORRED = '#FF2244'
 var COLORBLUE = '#0000FF';
 var COLORGREEN = '#CCFF11';
 var COLORGRAY = '#333333';
+var COLORGRAY2 = '#CCCCCC';
 
 var HCOLOR = ['#00FFCC',
 			  '#44FFAA',
@@ -28,7 +29,9 @@ var yCoord = [70, 160, 280, 380];
 
 function updateAllGUI(){
 	clearCanvas();
+	drawBorder();
 	drawAllLines();
+	fillSideBar();
 	drawAllNode(ROOTNODE);
 	drawSelected();
 	drawHighlight();
@@ -37,6 +40,31 @@ function updateAllGUI(){
 function clearCanvas(){
 	context.fillStyle = BACKGROUNDCOLOR;
 	context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawBorder(){
+	context.strokeStyle = '2px';
+	drawLine(0,70, 520, 70, COLORGRAY2);
+	drawLine(0,160, 520, 160, COLORGRAY2);
+	drawLine(0,280, 520, 280, COLORGRAY2);
+	drawLine(0,380, 520, 380, COLORGRAY2);
+	
+	context.strokeStyle = '5px';
+	drawLine(500,0, 500, 500, COLORBLACK);
+}
+
+function fillSideBar(){
+	var rowNum = levelOfIndex(ROOTNODE);
+	context.fillStyle = COLORBLACK;
+	context.font = '20px Arial';
+	var s = "Selected: ";
+	if (SELECTEDNODE !== null && gameArray[SELECTEDNODE] !== -1)
+		s = s + gameArray[SELECTEDNODE].toString();
+	context.fillText(s, 520, 480);
+	
+	context.fillText('ROW NUMBER:', 520, 20);
+	for (var i = 0; i < 4; i++)
+		context.fillText((rowNum+i).toString(), 540, yCoord[i] + 10);
 }
 
 //Given a node i,
@@ -94,10 +122,11 @@ function drawNode(r, i){
 		context.fill();						//Fill base color
 		
 		context.fillStyle = COLORBLACK;		//Font color
+		context.font="italic small-caps bold 12px arial";
 		if (gameArray[i]/10 < 1)
-			context.fillText(gameArray[i].toString(), xCoord[y][x]-5, yCoord[y]+7);
+			context.fillText(gameArray[i].toString(), xCoord[y][x]-5, yCoord[y]+5);
 		else
-			context.fillText(gameArray[i].toString(), xCoord[y][x]-10, yCoord[y]+7);	//Draw number of node
+			context.fillText(gameArray[i].toString(), xCoord[y][x]-7, yCoord[y]+5);	//Draw number of node
 	}
 	else{
 		context.fillStyle = BACKGROUNDCOLOR;
@@ -271,3 +300,4 @@ function recurseDrawLine(i){
 	recurseDrawLine(l);
 	recurseDrawLine(r);
 }
+
