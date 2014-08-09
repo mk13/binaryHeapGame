@@ -1,13 +1,13 @@
 //Initializes game
-function initGame(nodesCount){//Make adjustable later
+function initGame(nodesCount){
+	ROOTNODE = 0;
+	HIGHLIGHTEDNODE = 0;
+	SELECTEDNODE = null;
 	numberOfNodes = nodesCount;
 	valRange = 100;
 	var maxLevel = levelOfIndex(numberOfNodes-1)-1;
 	arrLength = (Math.pow(2,maxLevel)-1)*2 + 1;
-	//if (numberOfNodes === arrLength){
-	//	maxLevel = levelOfIndex(numberOfNodes-1);
-	//	arrLength = (Math.pow(2,maxLevel)-1)*2 + 1;
-	//}
+	
 	for (i=0; i < numberOfNodes; i++)
 		gameArray[i] = Math.floor(Math.random()*valRange);
 	for (i=numberOfNodes; i < arrLength; i++)
@@ -54,27 +54,37 @@ function PARENT(n){
 //Recursive check at a given node to see if its entire subtree is a heap
 //	TRUE  :: is heap
 //	FALSE :: is NOT heap
-//  TO ADD: Conditions for a win? Balanced? If not, count all nodes.
+//  Can return a false-positive since it will ignore all valid nodes existing
+//	outside of the recursion chain.
 function verifyHeap(currentIndex){
-	for (i = 0; i < numberOfNodes; i++)
-		if (gameArray[i] === -1)
-			return false;
 	var currElement = gameArray[currentIndex];
 	var noLeft = LEFT(currentIndex) >= arrLength || gameArray[LEFT(currentIndex)] === -1;
 	var noRight = RIGHT(currentIndex) >= arrLength || gameArray[RIGHT(currentIndex)] === -1;
 	if (noLeft && noRight)
 		return true;
-	if (LEFT(currentIndex) < arrLength && gameArray[LEFT(currentIndex)] > currElement)
+	if (!noLeft && gameArray[LEFT(currentIndex)] > currElement)
 		return false;
-	else if (RIGHT(currentIndex) < arrLength && gameArray[RIGHT(currentIndex)] > currElement)
+	else if (!noRight && gameArray[RIGHT(currentIndex)] > currElement)
 		return false;
 	else
 		return verifyHeap(LEFT(currentIndex)) && verifyHeap(RIGHT(currentIndex));
 }
 
+//Recursive check to COUNT the number of valid seen nodes.
+//Needs to be called after verifyHeap() returns a true to prevent
+//the false-positive. Do not call otherwise to increase efficiency.
+function heapCount(currentIndex){
+	var count = 0;
+	if (currentIndex >= arrLength || gameArray[currentIndex] === -1)
+		return count;
+	else count++;
+	
+	return count + heapCount(LEFT(currentIndex)) + heapCount(RIGHT(currentIndex));
+}
+
 //Checks entire tree if it is a heap
 function verifyGame(){
-	verifyHeap(0);
+	return verifyHeap(0) && (heapCount(0) === numberOfNodes);
 }
 
 //Only checks current node with its two children

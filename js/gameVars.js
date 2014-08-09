@@ -29,7 +29,10 @@ var BODY = document.getElementsByTagName("body")[0];
 
 function canvasInit(){
 	canvas = document.createElement('canvas');
-	canvas.width = 500;
+	
+	//Width: 1-500 is actual game
+	//Width: 501-700 is extra information
+	canvas.width = 700;
 	canvas.height = 500;
 	
 	context = canvas.getContext('2d');

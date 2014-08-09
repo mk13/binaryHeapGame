@@ -1,7 +1,7 @@
 document.onkeydown = checkKey;		//try up later
 
 function checkGame(){
-	if (GAME_HAS_ENDED || verifyHeap(0)){
+	if (GAME_HAS_ENDED || verifyGame()){
 		console.log("GAME HAS ENDED; TREE IS HEAP");
 		GAME_HAS_ENDED = true;
 		ROOTNODE = 0;
@@ -164,11 +164,8 @@ function spaceButton(){
 }
 
 (function() {
-	initGame(17);
+	initGame(17);		//Change number to change # of active nodes
 	canvasInit();
 	clearCanvas();
-	ROOTNODE = 0;
-	HIGHLIGHTEDNODE = 0;
-	SELECTEDNODE = null;
 	updateAllGUI();
 })();

@@ -83,8 +83,6 @@ function drawNode(r, i){
 		return;
 		
 	var arr = getCoords(r, i, arrLength);
-	//if (arr[0] < 0 || gameArray[i] === -1 || i > arrLength)
-	//	return;
 	var x = arr[1];
 	var y = arr[0];
 	
@@ -100,6 +98,13 @@ function drawNode(r, i){
 			context.fillText(gameArray[i].toString(), xCoord[y][x]-5, yCoord[y]+7);
 		else
 			context.fillText(gameArray[i].toString(), xCoord[y][x]-10, yCoord[y]+7);	//Draw number of node
+	}
+	else{
+		context.fillStyle = BACKGROUNDCOLOR;
+		context.beginPath();
+		context.arc(xCoord[y][x], yCoord[y], 20, 0, 2 * Math.PI);
+		context.closePath();
+		context.fill();
 	}
 	
 	
@@ -202,7 +207,7 @@ function drawAllLines(){
 
 	if (ROOTNODE !== 0){
 		var color;
-		if (gameArray[p] === -1)
+		if (gameArray[p] === -1 || gameArray[ROOTNODE] === -1)
 			color = COLORGRAY;
 		else
 			color = (gameArray[p] >= gameArray[ROOTNODE]) ? COLORGREEN : COLORRED;
@@ -215,13 +220,15 @@ function drawAllLines(){
 }
 //Helper function for 'drawAllLines()'
 function recurseDrawLine(i){
-	if (i >= arrLength || gameArray[i] === -1)
+	if (i >= arrLength)	
 		return;
 		
 	var l = LEFT(i);
 	var r = RIGHT(i);
 	var color;
+	
 	var a = getCoords(ROOTNODE, i, arrLength);
+	
 	if (a[0] < 0)
 		return;
 	
@@ -229,23 +236,35 @@ function recurseDrawLine(i){
 	ra = getCoords(ROOTNODE, r, arrLength);
 	
 	//Draw left
-	if (l < arrLength && gameArray[l] !== -1){
-		color = (gameArray[i] >= gameArray[l]) ? COLORGREEN : COLORRED;
+	if (l < arrLength){
+		if (gameArray[l] === -1 || gameArray[i] === -1)
+			color = COLORGRAY;
+		else
+			color = (gameArray[i] >= gameArray[l]) ? COLORGREEN : COLORRED;
+		
+		//If left child is visible
 		if (la[0] > 0){
 			drawLine(xCoord[a[0]][a[1]], yCoord[a[0]], xCoord[la[0]][la[1]], yCoord[la[0]], color);
 		}
-		else if(la[0] < 0 && gameArray[l] !== -1){
+		//If left child is NOT visible, but exists
+		else{
 			drawLine(xCoord[a[0]][a[1]], yCoord[a[0]], xCoord[a[0]][a[1]] - 20, 450, color);
 		}
 	}
 
 	//Draw right
-	if (r < arrLength && gameArray[r] !== -1){
-		color = (gameArray[i] >= gameArray[r]) ? COLORGREEN : COLORRED;
+	if (r < arrLength){
+		if (gameArray[r] === -1 || gameArray[i] === -1)
+			color = COLORGRAY;
+		else
+			color = (gameArray[i] >= gameArray[r]) ? COLORGREEN : COLORRED;
+		
+		//If right child is visible
 		if (ra[0] > 0){
 			drawLine(xCoord[a[0]][a[1]], yCoord[a[0]], xCoord[ra[0]][ra[1]], yCoord[ra[0]], color);
 		}
-		else if(la[0] < 0 && gameArray[l] !== -1){
+		//If right child is NOT visible, but exists
+		else{
 			drawLine(xCoord[a[0]][a[1]], yCoord[a[0]], xCoord[a[0]][a[1]] + 20, 450, color);
 		}
 	}
